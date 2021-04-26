@@ -37,8 +37,12 @@ module.exports = {
       });
     }
 
-    const storageDirectory = path.join(__dirname, '..', 'uploads', req.user.id);
+    const uploadsDirectory = path.join(__dirname, '..', 'uploads');
+    if (!fs.existsSync(uploadsDirectory)) {
+      fs.mkdirSync(uploadsDirectory);
+    }
 
+    const storageDirectory = path.join(__dirname, '..', 'uploads', req.user.id);
     if (!fs.existsSync(storageDirectory)) {
       fs.mkdirSync(storageDirectory);
     }

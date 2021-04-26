@@ -1,12 +1,16 @@
+require('../../db');
 const express = require('express');
 const api = express();
 const router = require('./router');
 const jwt = require('express-jwt');
-require('../../config/db');
+const config = require('../../config');
 
 api.use(express.json());
 
-api.use(jwt({ secret: 'secret_key', algorithms: ['HS256'] }));
+api.use(jwt({
+  secret: config.get('auth').jwt_key,
+  algorithms: ['HS256']
+}));
 
 api.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
@@ -19,11 +23,9 @@ api.use((err, req, res, next) => {
 
 api.use('/api/v1/users', router);
 
-api.listen(3001, err => {
+api.listen(config.get('ports').users, err => {
   if (err) {
     return console.log('Error happened while starting the users service: ', err);
   }
-
-  // TODO: Put port number to an env variable
-  console.log('Users service successfully started on port 3001...');
+  console.log('Users service successfully started on port', config.get('ports').users);
 });

@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 module.exports = {
   register: async (req, res) => {
@@ -35,6 +36,7 @@ module.exports = {
       });
     }
   },
+
   login: async (req, res) => {
     try {
       const user = await User.findOne({ email: req.body.email });
@@ -58,7 +60,7 @@ module.exports = {
         email: user.email
       }
 
-      const token = jwt.sign(payload, 'secret_key', {
+      const token = jwt.sign(payload, config.get('auth').jwt_key, {
         expiresIn: '30m'
       });
 
@@ -74,13 +76,14 @@ module.exports = {
       });
     }
   },
+  
   refresh_token: (req, res) => {
     const payload = {
       id: req.user.id,
       email: req.user.email
     };
 
-    const token = jwt.sign(payload, 'secret_key', {
+    const token = jwt.sign(payload, config.get('auth').jwt_key, {
       expiresIn: '30m'
     });
 

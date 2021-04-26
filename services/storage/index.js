@@ -3,11 +3,14 @@ const api = express();
 const router = require('./router');
 const jwt = require('express-jwt');
 const upload = require('express-fileupload');
-require('../../config/db');
+const config = require('../../config');
 
 api.use(express.json());
 
-api.use(jwt({ secret: 'secret_key', algorithms: ['HS256'] }));
+api.use(jwt({
+  secret: config.get('auth').jwt_key,
+  algorithms: ['HS256']
+}));
 
 api.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
@@ -22,11 +25,9 @@ api.use(upload());
 
 api.use('/api/v1/storage', router);
 
-api.listen(3002, err => {
+api.listen(config.get('ports').storage, err => {
   if (err) {
     return console.log('Error happened while starting the storage service: ', err);
   }
-
-  // TODO: Put port number to an env variable
-  console.log('Storage service successfully started on port 3002...');
+  console.log('Storage service successfully started on port', config.get('ports').storage);
 });
