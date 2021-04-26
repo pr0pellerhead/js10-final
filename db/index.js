@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../config');
+const config = require('../config/index');
 
 const host = config.get('database').host;
 const port = config.get('database').port;
@@ -7,7 +7,7 @@ const username = config.get('database').username;
 const password = config.get('database').password;
 const dbname = config.get('database').dbname;
 
-let DSN = `mongodb://${username}:${password}@${host}:${port}/${dbname}`;
+let DSN = `mongodb+srv://${username}:${password}@${host}/${dbname}?retryWrites=true&w=majority`;
 
 mongoose.connect(
   DSN, 

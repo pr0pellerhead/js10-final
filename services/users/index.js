@@ -3,7 +3,7 @@ const express = require('express');
 const api = express();
 const router = require('./router');
 const jwt = require('express-jwt');
-const config = require('../../config');
+const config = require('../../config/index');
 
 api.use(express.json());
 

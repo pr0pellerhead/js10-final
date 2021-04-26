@@ -3,7 +3,7 @@ const api = express();
 const router = require('./router');
 const jwt = require('express-jwt');
 const upload = require('express-fileupload');
-const config = require('../../config');
+const config = require('../../config/index');
 
 api.use(express.json());
 
