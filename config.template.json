@@ -1,0 +1,17 @@
+{
+    "database": {
+        "host": "",
+        "port": 27017,
+        "username": "",
+        "password": "",
+        "dbname": ""
+    },
+    "auth": {
+        "jwt_key": ""
+    },
+    "ports": {
+        "auth": 9001,
+        "storage": 9002,
+        "users": 9003
+    }
+}
